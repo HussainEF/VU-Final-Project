@@ -12,7 +12,7 @@
         echo "<script>alert('Your are not logged in. Please Login again')</script>";
         echo "<script>window.location.href= 'login_customer.php'</script>";
         exit();
-    }
+    }   
 ?>
 
 <!DOCTYPE html>

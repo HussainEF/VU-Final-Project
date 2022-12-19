@@ -131,7 +131,7 @@
                             $result=mysqli_query($con, $query);
                             while($row=mysqli_fetch_array($result)){ 
                         ?>
-                        <div class='col-5 container-fluid d-inline-flex rounded mt-2 me-2 shadow-lg'>
+                        <div class='col-5 d-inline-flex rounded mt-2 me-2 shadow-lg'>
                             <div class='row container-fluid'>
                                 <div class='col-12'>
                                     <h6>Mobile Type ID:-<?php echo $row['id']; ?></h6>

@@ -1,6 +1,6 @@
 <div class="col-3 bg-secondary">
     <div class="col-12 btn btn-light mt-2 mb-2 d-flex justify-content-center container-fluid">
-        <button class="btn" onclick="window.open('tehnician_home.php','_self')">Home</button>
+        <button class="btn" onclick="window.open('technician_home.php','_self')">Home</button>
     </div>
     <div class="col-12 btn btn-light mb-2 d-flex justify-content-center container-fluid">
         <button class="btn" onclick="window.open('update_profile.php','_self')">Update Profile</button>

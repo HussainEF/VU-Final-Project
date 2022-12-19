@@ -28,9 +28,9 @@
             //update service
             if(isset($_POST['update'])){
                 $updated_id=$_POST['id'];
-                $updated_name=$_POST['service'];
+                $updated_charges=$_POST['charges'];
                 $updated_detail=$_POST['detail'];
-                $updated_service_query="UPDATE `services` SET `name`='$updated_name',`detail`='$updated_detail' WHERE `id`='$updated_id'";
+                $updated_service_query="UPDATE `services_offered` SET `charges`='$updated_charges',`details`='$updated_detail' WHERE `id`='$updated_id'";
                 $run_updated_service_query=mysqli_query($con, $updated_service_query);
                 if(isset($run_updated_service_query)){
                     echo "<script>alert('Service Updated Successfully')</script>";
@@ -46,7 +46,7 @@
             //Delete service
             if(isset($_REQUEST['del'])){
                 $del_id=$_REQUEST['del'];
-                $delete_service_query="DELETE FROM `services` WHERE id='$del_id'";
+                $delete_service_query="DELETE FROM `services_offered` WHERE id='$del_id'";
                 $run_delete_service_query=mysqli_query($con, $delete_service_query);
                 if(isset($run_delete_service_query)){
                     echo "<script>alert('Service Deleted Successfully')</script>";
@@ -116,22 +116,38 @@
                                         </div>
                                         <form method="post">
                                             <div class="modal-body">
-                                                    <!-- Fetching Services Name from Database table and displaying in Dropdown -->
-                                                    <?php
-                                                        $dropdown_query="SELECT * FROM `services`";
-                                                        $result=mysqli_query($con,$dropdown_query);
-                                                    ?>
-                                                    <div>
-                                                    <select name="services" class="rounded w-100 p-2 mb-2">
-                                                        <option value="">--Select An Service--</option>
-                                                        <?php
-                                                            while($options=mysqli_fetch_array($result)){
-                                                                echo "<option value=".$options['id']."-".$options['name'].">".$options['id']."-".$options['name']."</option>";
-                                                            } 
-                                                        ?>
-                                                    </select>
-                                                    <input type="text" class="form-control mb-2" id="inputCharges" name="charges" placeholder="Charges">
-                                                    <input type="text" class="form-control mb-2" id="inputDetial" name="detail" placeholder="Additional Detilas">
+                                                <!-- Fetching Mobile from Database table and displaying in Dropdown -->
+                                                <?php
+                                                    $mobile_type="SELECT * FROM `mobile_types`";
+                                                    $result_mobile_type=mysqli_query($con,$mobile_type);
+                                                ?>
+                                                <select name="mobile_types" class="rounded w-100 p-2 mb-2">
+                                                    <option value="">--Select An Mobile Type--</option>
+                                                <?php
+                                                    while($mobile_type_options=mysqli_fetch_array($result_mobile_type)){
+                                                ?>
+                                                    <option value="<?php echo $mobile_type_options['id'] ."-" . $mobile_type_options['name'];?>"><?php echo $mobile_type_options['name']; ?></option>
+                                                <?php 
+                                                    } 
+                                                ?>
+                                                </select>
+                                                <!-- Fetching Services Name from Database table and displaying in Dropdown -->
+                                                <?php
+                                                    $services_query="SELECT * FROM `services`";
+                                                    $services_result=mysqli_query($con,$services_query);
+                                                ?>
+                                                <select name="services" class="rounded w-100 p-2 mb-2">
+                                                    <option value="">--Select An Service--</option>
+                                                <?php
+                                                    while($services_options=mysqli_fetch_array($services_result)){
+                                                ?>
+                                                    <option value="<?php echo $services_options['id'] ."-" . $services_options['name'];?>"><?php echo $services_options['name']; ?></option>
+                                                <?php 
+                                                    } 
+                                                ?>
+                                                </select>
+                                                <input type="text" class="form-control mb-2" id="inputCharges" name="charges" placeholder="Charges">
+                                                <input type="text" class="form-control mb-2" id="inputDetial" name="detail" placeholder="Additional Detilas">
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-primary" name="save">Save</button>
@@ -150,7 +166,7 @@
                     <div class="row">                        
                         <!-------Displaying Exsisting Offered Services At Runtime------>
                         <?php
-                            $query="SELECT * FROM `services_offered`";
+                            $query="SELECT * FROM `services_offered` WHERE `technician_id`='$_SESSION[uid]'";
                             $result=mysqli_query($con, $query);
                             while($row=mysqli_fetch_array($result)){
                         ?>
@@ -183,9 +199,42 @@
                                                 </div>
                                                 <form method='post'>
                                                     <div class='modal-body'>
-                                                        <input type='text' class='form-control mb-2' id='inputId' name='id' placeholder='Service ID' value="<?php echo $row['id'];?>">
-                                                        <input type='text' class='form-control mb-2' id='inputService' name='service' placeholder='Service Name' value="<?php echo $row['name'];?>">
-                                                        <textarea type='text' class='form-control mb-2' id='inputDetail' name='detail' placeholder='Enter Service Detail Here...'><?php echo $row['detail'];?></textarea>
+                                                        <!-- Fetching Mobile Types from Database table and displaying in Dropdown -->
+                                                        <?php
+                                                            $mobile_type_dropdown="SELECT * FROM `mobile_types`";
+                                                            $mobile_type_dropdown_result=mysqli_query($con,$mobile_type_dropdown);
+                                                        ?>
+                                                        <select name="services" class="rounded w-100 p-2 mb-2">
+                                                            <?php
+                                                                while($mobile_type_data=mysqli_fetch_array($mobile_type_dropdown_result)){
+                                                            ?>
+                                                                    <option value="<?php echo $mobile_type_data['id'] ."-" . $mobile_type_data['name'];?>">
+                                                                        <?php echo $mobile_type_data['name']; ?>
+                                                                    </option>
+                                                            <?php 
+                                                                }
+                                                            ?>
+                                                        </select>
+                                                        <!-- Fetching Services Name from Database table and displaying in Dropdown -->
+                                                        <?php
+                                                            $services_dropdown="SELECT * FROM `services`";
+                                                            $services_dropdown_result=mysqli_query($con,$services_dropdown);
+                                                        ?>
+                                                        <select name="services" class="rounded w-100 p-2 mb-2">
+                                                            <?php
+                                                                while($services_data=mysqli_fetch_array($services_dropdown_result)){
+                                                            ?>
+                                                                    <option value="<?php echo $services_data['id'] ."-" . $services_data['name'];?>">
+                                                                        <?php echo $services_data['name']; ?>
+                                                                    </option>
+                                                            <?php 
+                                                                }
+                                                            ?>
+                                                        </select>
+                                                        <!-- for some hack-->
+                                                        <input type='text' class='invisible d-none' name='id' value="<?php echo $row['id'];?>">
+                                                        <input type='text' class='form-control mb-2' id='inputCharges' name='charges' placeholder='Service Charges' value="<?php echo $row['charges'];?>">
+                                                        <textarea type='text' class='form-control mb-2' id='inputDetail' name='detail' placeholder='Enter Service Detail Here...'><?php echo $row['details'];?></textarea>
                                                     </div>
                                                     <div class='modal-footer'>
                                                         <button class='btn btn-primary' name='update'>Update</button>
