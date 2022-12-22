@@ -9,13 +9,19 @@
         else{
             //add service
             if(isset($_POST['save'])){
-                $id=$_POST['services'];
-                $s_id=(int)$id[0];
+                //fetching service id
+                $s_id=$_POST['services'];
+                $service_id=(int)$s_id[0];
+                //fetching mobile type id
+                $m_id=$_POST['mobile_types'];
+                $mobile_id=(int)$m_id[0];
                 $t_id=$_SESSION['uid'];
                 $name=$_POST['services'];
+                $sname=substr($name,2);
+                $descript=$_POST['description'];
                 $charges=$_POST['charges'];
                 $detail=$_POST['detail'];
-                $add_service_query="INSERT INTO `services_offered`(`s_id`, `technician_id`, `name`, `charges`, `details`) VALUES ('$s_id', '$t_id', '$name', '$charges', '$detail') ";
+                $add_service_query="INSERT INTO `services_offered`(`s_id`, `mobile_type_id`, `technician_id`, `name`, `description`, `charges`, `details`) VALUES ('$service_id', '$mobile_id',  '$t_id', '$sname', '$descript', '$charges', '$detail') ";
                 $run=mysqli_query($con,$add_service_query);
                 if($run){
                     echo "<script>alert('Repairing Services Added Successfully')</script>";
@@ -29,8 +35,9 @@
             if(isset($_POST['update'])){
                 $updated_id=$_POST['id'];
                 $updated_charges=$_POST['charges'];
+                $updated_dsp=$_POST['description'];
                 $updated_detail=$_POST['detail'];
-                $updated_service_query="UPDATE `services_offered` SET `charges`='$updated_charges',`details`='$updated_detail' WHERE `id`='$updated_id'";
+                $updated_service_query="UPDATE `services_offered` SET `description`='$updated_dsp', `charges`='$updated_charges',`details`='$updated_detail' WHERE `id`='$updated_id'";
                 $run_updated_service_query=mysqli_query($con, $updated_service_query);
                 if(isset($run_updated_service_query)){
                     echo "<script>alert('Service Updated Successfully')</script>";
@@ -146,8 +153,9 @@
                                                     } 
                                                 ?>
                                                 </select>
+                                                <input type="text" class="form-control mb-2" id="inputDescription" name="description" placeholder="Short Description">
                                                 <input type="text" class="form-control mb-2" id="inputCharges" name="charges" placeholder="Charges">
-                                                <input type="text" class="form-control mb-2" id="inputDetial" name="detail" placeholder="Additional Detilas">
+                                                <textarea class="form-control mb-2" id="inputDetial" name="detail">Addtional Details</textarea>
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-primary" name="save">Save</button>
@@ -179,6 +187,7 @@
                                 <div class='col-12'>
                                     <h6 ><?php echo $row['name']; ?></h6>
                                     <h6 ><?php echo $row['charges']; ?></h6>
+                                    <h6 ><?php echo $row['description']; ?></h6>
                                     <h6 ><?php echo $row['details']; ?></h6>
                                     <h6 >Expected Time</h6>
                                 </div>
@@ -233,6 +242,7 @@
                                                         </select>
                                                         <!-- for some hack-->
                                                         <input type='text' class='invisible d-none' name='id' value="<?php echo $row['id'];?>">
+                                                        <input type='text' class='form-control mb-2' id='inputDescription' name='description' placeholder='Short Description' value="<?php echo $row['description'];?>">
                                                         <input type='text' class='form-control mb-2' id='inputCharges' name='charges' placeholder='Service Charges' value="<?php echo $row['charges'];?>">
                                                         <textarea type='text' class='form-control mb-2' id='inputDetail' name='detail' placeholder='Enter Service Detail Here...'><?php echo $row['details'];?></textarea>
                                                     </div>
