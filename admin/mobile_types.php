@@ -124,23 +124,23 @@
                     <div class="row">
                         <h3 class="mt-2 mb-2 d-flex justify-content-center">Manage Exsisting Mobile Types</h3>
                     </div>
-                    <div class="row">
+                    <div class="row p-2">
                         <!-------PHP Script------>
                         <?php
                             $query="SELECT * FROM mobile_types";
                             $result=mysqli_query($con, $query);
                             while($row=mysqli_fetch_array($result)){ 
                         ?>
-                        <div class='col-5 d-inline-flex rounded mt-2 me-2 shadow-lg'>
-                            <div class='row container-fluid'>
+                        <div class='col-6 bg-lite rounded border border-3 p-2'>
+                            <div class='row'>
                                 <div class='col-12'>
                                     <h6>Mobile Type ID:-<?php echo $row['id']; ?></h6>
                                     <h6>Mobile Type Name:-<?php echo $row['name']; ?></h6>
                                     <h6>Description:-<?php echo $row['detail']; ?></h6>
                                 </div>
-                                <div class='col-12'>
+                                <div class='col-12 d-flex justify-content-end'>
                                     <!-- Update-Button trigger modal -->
-                                    <a class='btn btn-primary' data-bs-toggle='modal' data-bs-target="#updateForm<?php echo $row['id'];?>">
+                                    <a class='btn btn-primary me-2' data-bs-toggle='modal' data-bs-target="#updateForm<?php echo $row['id'];?>">
                                         Update
                                     </a>
                                     <!-- Update Mobile Type Modal -->

@@ -124,53 +124,55 @@
                     <div class="row">
                         <h3 class="mt-2 mb-2 d-flex justify-content-center">Manage Exsisting Services</h3>
                     </div>
-                    <!-------PHP Script------>
-                  <?php
-                        $query="SELECT * FROM services";
-                        $result=mysqli_query($con, $query);
-                        while($row=mysqli_fetch_array($result)){ 
-                    ?>
-                            <div class='col-5 container-fluid d-inline-flex rounded mt-2 me-2 shadow-lg'>
-                                <div class='row container-fluid'>
-                                    <div class='col-12'>
-                                        <h6>Service ID:-<?php echo $row['id']; ?></h6>
-                                        <h6>Service Name:-<?php echo $row['name']; ?></h6>
-                                        <h6>Description:-<?php echo $row['detail']; ?></h6>
-                                    </div>
-                                    <div class='col-12'>
-                                        <!-- Update-Button trigger modal -->
-                                        <a class='btn btn-primary' data-bs-toggle='modal' data-bs-target="#updateForm<?php echo $row['id'];?>">
-                                            Update
-                                        </a>
-                                        <!-- Update Service Modal -->
-                                        <div class='modal fade' id="updateForm<?php echo $row['id'];?>" aria-hidden='true'>
-                                            <div class='modal-dialog'>
-                                                <div class='modal-content'>
-                                                    <div class='modal-header'>
-                                                        <h1 class='modal-title fs-5'>Update Service</h1>
-                                                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    <div class="row p-2">
+                        <!-------PHP Script------>
+                        <?php
+                            $query="SELECT * FROM services";
+                            $result=mysqli_query($con, $query);
+                            while($row=mysqli_fetch_array($result)){ 
+                        ?>
+                                <div class='col-6 rounded border border-3 border-lite'>
+                                    <div class='row p-2'>
+                                        <div class='col-12'>
+                                            <h6>Service ID:-<?php echo $row['id']; ?></h6>
+                                            <h6>Service Name:-<?php echo $row['name']; ?></h6>
+                                            <h6>Description:-<?php echo $row['detail']; ?></h6>
+                                        </div>
+                                        <div class='col-12 d-flex justify-content-end'>
+                                            <!-- Update-Button trigger modal -->
+                                            <a class='btn btn-primary me-2' data-bs-toggle='modal' data-bs-target="#updateForm<?php echo $row['id'];?>">
+                                                Update
+                                            </a>
+                                            <!-- Update Service Modal -->
+                                            <div class='modal fade' id="updateForm<?php echo $row['id'];?>" aria-hidden='true'>
+                                                <div class='modal-dialog'>
+                                                    <div class='modal-content'>
+                                                        <div class='modal-header'>
+                                                            <h1 class='modal-title fs-5'>Update Service</h1>
+                                                            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                                                        </div>
+                                                        <form method='post'>
+                                                            <div class='modal-body'>
+                                                                <input type='text' class='form-control mb-2' id='inputId' name='id' placeholder='Service ID' value="<?php echo $row['id'];?>">
+                                                                <input type='text' class='form-control mb-2' id='inputService' name='service' placeholder='Service Name' value="<?php echo $row['name'];?>">
+                                                                <textarea type='text' class='form-control mb-2' id='inputDetail' name='detail' placeholder='Enter Service Detail Here...'><?php echo $row['detail'];?></textarea>
+                                                            </div>
+                                                            <div class='modal-footer'>
+                                                                <button class='btn btn-primary' name='update'>Update</button>
+                                                            </div>
+                                                        </form>
                                                     </div>
-                                                    <form method='post'>
-                                                        <div class='modal-body'>
-                                                            <input type='text' class='form-control mb-2' id='inputId' name='id' placeholder='Service ID' value="<?php echo $row['id'];?>">
-                                                            <input type='text' class='form-control mb-2' id='inputService' name='service' placeholder='Service Name' value="<?php echo $row['name'];?>">
-                                                            <textarea type='text' class='form-control mb-2' id='inputDetail' name='detail' placeholder='Enter Service Detail Here...'><?php echo $row['detail'];?></textarea>
-                                                        </div>
-                                                        <div class='modal-footer'>
-                                                            <button class='btn btn-primary' name='update'>Update</button>
-                                                        </div>
-                                                    </form>
                                                 </div>
                                             </div>
+                                            <a href="service_categories.php?del=<?php echo $row['id'];?>" class='btn btn-primary' name='delete'>
+                                                Delete
+                                            </a>
                                         </div>
-                                        <a href="service_categories.php?del=<?php echo $row['id'];?>" class='btn btn-primary' name='delete'>
-                                            Delete
-                                        </a>
                                     </div>
-                                </div>
-                            </div>       
-                  <?php }
-                    ?>
+                                </div>       
+                        <?php }
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>

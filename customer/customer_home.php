@@ -31,8 +31,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-        <!-- Bootstrap CSS -->
+        <!-- Bootstrap, Fontaweosme, Customized CSS -->
         <link rel="stylesheet" href="../custom_style.css">
+        <link rel="stylesheet" href="../fontawesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="../scripts/css/bootstrap.min.css">
         <title>Online Mobile Phone Technician Finder and Mobile Repairing</title>
     </head>
@@ -129,9 +130,8 @@
                     </div>
                     <div class="row">
                         <?php
-                            $query="SELECT `id`, `description`, `charges` ,
-                            (SELECT `name` FROM `register_technician` Where `id`=`technician_id`) as 'name', 
-                            (SELECT `rating` FROM `feedback` Where `id`=`technician_id`) as 'rating'
+                            $query="SELECT `id`, `description`, `charges`, `rating` ,
+                            (SELECT `name` FROM `register_technician` Where `id`=`technician_id`) as 'name'
                             FROM `services_offered`" ;
                             $result=mysqli_query($con, $query);
                             while($row=mysqli_fetch_array($result)){
@@ -139,10 +139,17 @@
                         <div class="card m-1 zoom" style="width: 17rem;" onclick="window.location.href='service_page.php?gig=<?php echo $row['id'];?>', '_self'">
                             <img src="../profile.png" class="align-self-center" atl="Pics"/>
                             <div class="card-body">
-                                <h4><?php echo $row['name']; ?></h4>
-                                <h5><?php echo $row['description']; ?></h5>
-                                <h5>Ratings:- <?php echo $row['rating']; ?></h5>
-                                <h4 class="bg-secondary">Charges:-<?php echo $row['charges'] ?></h4>
+                                <h6 class="text-bg-white rounded p-2"><?php echo $row['name']; ?></h6>
+                                <h5 class="text-bg-info rounded p-2"><?php echo $row['description']; ?></h5>
+                                <span class="">
+                                    <h6 class="d-inline">Rating:- <?php echo $row['rating']; ?></h6>
+                                    <label for="rating-5"><i class="fa fa-star"></i></label>
+                                    <label for="rating-4"><i class="fa fa-star"></i></label>
+                                    <label for="rating-3"><i class="fa fa-star"></i></label>
+                                    <label for="rating-2"><i class="fa fa-star"></i></label>
+                                    <label for="rating-1"><i class="fa fa-star"></i></label>
+                                </span>
+                                <h5 class="text-bg-success rounded p-2" style="width: 11rem;">Charges:-<?php echo $row['charges'] ?></h5>
                             </div>
                         </div>
                         <?php 

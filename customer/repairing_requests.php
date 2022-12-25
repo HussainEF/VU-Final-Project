@@ -45,6 +45,9 @@
             <div class="row">
                 <?php include("sidebar.php"); ?>
                 <div class="col-9 bg-transparent">
+                    <div class="row">
+                        <h3 class="mt-2 mb-2 d-flex justify-content-center">Repairing Requesets</h3>
+                    </div>
                     <?php
                         $request_query="SELECT `message`, `status`, 
                                         (SELECT `name` FROM `register_technician` WHERE `id`=`technician_id`) as `name`,
@@ -52,25 +55,28 @@
                                         (SELECT `description` FROM `services_offered` WHERE `id`=`service_id`) as `description`
                                         FROM `service_request` WHERE `customer_id`='$_SESSION[uid]'";
                         $run_query=mysqli_query($con, $request_query);
-                        $get_data=mysqli_fetch_array($run_query);
+                        while($get_data=mysqli_fetch_array($run_query)){
                     ?>
-                    <div class="row border bg-light rounded m-2 p-2">
-                        <div class="col-6">
-                            <h6 class=""><?php echo $get_data['name'] ?></h6>
-                            <h6><?php echo $get_data['description'] ?></h6>
-                            <h6><?php echo $get_data['charges'] ?></h6>
+                        <div class="row border bg-light rounded m-2 p-2">
+                            <div class="col-5 bg-white border-end border-3">
+                                <h6 class=""><?php echo $get_data['name'] ?></h6>
+                                <h6><?php echo $get_data['description'] ?></h6>
+                                <h6><?php echo $get_data['charges'] ?></h6>
+                            </div>
+                            <div class="col-5 bg-white border-end border-3">
+                                <h6 class="d-flex justify-content-center"><b>Your Messege For Technician</b></h6>
+                                <p class="border-1 border-secondary"><?php echo $get_data['message'] ?></p>
+                            </div>
+                            <div class="col-2 bg-white d-flex flex-column justify-content-center border-end border-3">
+                                <h6 class="align-self-center">Stauts</h6>
+                                <button class="rounded p-1 align-self-center"><?php echo $get_data['status'] ?></button>
+                            </div>
                         </div>
-                        <div class="col-5">
-                            <h6 class="d-flex justify-content-center"><b>Your Messege For Technician</b></h6>
-                            <p class="border border-secondary"><?php echo $get_data['message'] ?></p>
-                        </div>
-                        <div class="col-1 d-flex flex-column align-items-start justify-content-center">
-                            <h6>Stauts</h6>
-                            <button class="rounded p-1 align-self-center"><?php echo $get_data['status'] ?></button>
-                        </div>
-                    </div>
+                    <?php
+                        } 
+                    ?>
                 </div>
-            </div>
+            </div> 
         </div>
         <!------------ Scripts Files -------------->
         <script src="../scripts/js/bootstrap.bundle.min.js"></script>

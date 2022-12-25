@@ -87,42 +87,35 @@
                         <h3 class="mt-2 mb-2 d-flex justify-content-center">Customers Details</h3>
                     </div>
                     <hr>
-                    <div class="row">
-                        <!-------PHP Script------>
-                        <?php
-                            $query="SELECT * FROM register_customer";
-                            $result=mysqli_query($con, $query);
-                            while($row=mysqli_fetch_array($result)){ 
-                        ?>
-                            <div class='col-12 container-fluid d-inline-flex rounded mt-2 me-2 shadow-lg'>
-                                <div class='row container-fluid'>
-                                    <div class='col-2 me-1 align-self-center'>
-                                        <img src='../profile.png' class="rounded float-start">
-                                    </div>
-                                    <div class="col-auto d-flex ms-0 align-self-center" style="height: 128px;">
-                                        <div class="vr"></div>
-                                    </div>
-                                    <div class='col-7 float-start'>
-                                        <h6><?php echo $row['name']; ?></h6>
-                                        <h6><?php echo $row['contact']; ?></h6>
-                                        <h6><?php echo $row['email']; ?></h6>
-                                        <h6><?php echo $row['address']; ?></h6>
-                                        <h6><?php echo ($row['status']==true) ? "Active" : "Blocked"; ?></h6>
-                                    </div>
-                                    <div class="col-auto d-flex ms-0 align-self-center" style="height: 128px;">
-                                        <div class="vr"></div>
-                                    </div>
-                                    <div class='col-2 align-self-center'>
-                                        <button class="col-12 btn btn-primary mb-2">View</button>
-                                        <a href="view_customers.php?<?php echo ($row['status']==true) ? "block" : "unblock"; ?>=<?php echo $row['id'];?>" class="col-12 btn btn-primary"><?php echo ($row['status']==false) ? "Activate" : "Block"; ?></a>
-                                        <a href="view_customers.php?del=<?php echo $row['id'] ?>" class="col-12 btn btn-primary mt-2 mb-2">Delete</a>
-                                    </div>
-                                </div>
-                            </div>       
-                        <?php 
-                            }
-                        ?>
-                                
+                    <div class="row p-2">
+                        <div class="col-12">
+                            <!-------PHP Script------>
+                            <?php
+                                $query="SELECT * FROM register_customer";
+                                $result=mysqli_query($con, $query);
+                                while($row=mysqli_fetch_array($result)){ 
+                            ?>
+                                    <div class='row border border-2 border-secondary rounded mt-2 p-2'>
+                                        <div class='col-2 p-2 d-flex justify-content-center border border-2 border-info rounded'>
+                                            <img src='../profile.png'>
+                                        </div>
+                                        <div class='col-7 p-2 float-start border border-2 border-secondary rounded'>
+                                            <h6>Name:- <?php echo $row['name']; ?></h6>
+                                            <h6>Contact# <?php echo $row['contact']; ?></h6>
+                                            <h6>Email:- <?php echo $row['email']; ?></h6>
+                                            <h6><Address>Address:- <?php echo $row['address']; ?></Address></h6>
+                                            <h6>Status:- <?php echo ($row['status']==true) ? "Active" : "Blocked"; ?></h6>
+                                        </div>
+                                        <div class='col-3 p-2 d-flex flex-column justify-content-center border border-2 border-success rounded'>
+                                            <button class="col-12 btn btn-primary mb-2">View</button>
+                                            <a href="view_customers.php?<?php echo ($row['status']==true) ? "block" : "unblock"; ?>=<?php echo $row['id'];?>" class="col-12 btn btn-primary"><?php echo ($row['status']==false) ? "Activate" : "Block"; ?></a>
+                                            <a href="view_customers.php?del=<?php echo $row['id'] ?>" class="col-12 btn btn-primary mt-2 mb-2">Delete</a>
+                                        </div>
+                                    </div>       
+                            <?php 
+                                }
+                            ?>
+                        </div>        
                     </div>
                 </div>
             </div>

@@ -168,19 +168,18 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <h4 class="mt-2 mb-2 d-flex justify-content-center">Exsisting Offered Reparing Services</h4>
+                        <h4 class="mt-2 mb-2 d-flex justify-content-center">Exsisting Reparing Services</h4>
                     </div>
-                    <hr>
-                    <div class="row">                        
+                    <div class="row p-2">                        
                         <!-------Displaying Exsisting Offered Services At Runtime------>
                         <?php
                             $query="SELECT * FROM `services_offered` WHERE `technician_id`='$_SESSION[uid]'";
                             $result=mysqli_query($con, $query);
                             while($row=mysqli_fetch_array($result)){
                         ?>
-                        <div class='col-5 rounded ms-2 mt-2 me-2 shadow-lg'>
+                        <div class='col-4 rounded border border-3 border-lite p-2'>
                             <div class='row'>
-                                <div class='col-12 d-flex justify-content-center me-1'>
+                                <div class='col-12 d-flex justify-content-center'>
                                     <img src='../profile.png' class="rounded">
                                 </div>
                                 <hr>
@@ -192,10 +191,10 @@
                                     <h6 >Expected Time</h6>
                                 </div>
                                 <hr>
-                                <div class='col-12 d-flex justify-content-center'>
-                                    <button class="col-3 btn btn-primary ms-2 me-1">View</button>
+                                <div class='col-12 d-flex justify-content-center align-items-center'>
+                                    <button class="btn btn-primary me-2">View</button>
                                     <!-- Update-Button trigger modal -->
-                                    <a class='btn btn-primary' data-bs-toggle='modal' data-bs-target="#updateForm<?php echo $row['id'];?>">
+                                    <a class='btn btn-primary me-2' data-bs-toggle='modal' data-bs-target="#updateForm<?php echo $row['id'];?>">
                                         Update
                                     </a>
                                     <!-- Update Service Modal -->
@@ -242,6 +241,7 @@
                                                         </select>
                                                         <!-- for some hack-->
                                                         <input type='text' class='invisible d-none' name='id' value="<?php echo $row['id'];?>">
+                                                        
                                                         <input type='text' class='form-control mb-2' id='inputDescription' name='description' placeholder='Short Description' value="<?php echo $row['description'];?>">
                                                         <input type='text' class='form-control mb-2' id='inputCharges' name='charges' placeholder='Service Charges' value="<?php echo $row['charges'];?>">
                                                         <textarea type='text' class='form-control mb-2' id='inputDetail' name='detail' placeholder='Enter Service Detail Here...'><?php echo $row['details'];?></textarea>
@@ -253,7 +253,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="manage_services.php?del=<?php echo $row['id'];?>" class="col-3 btn btn-primary ms-1 me-2" name='delete'>Delete</a>
+                                    <a href="manage_services.php?del=<?php echo $row['id'];?>" class="btn btn-primary" name='delete'>Delete</a>
                                 </div>
                             </div>
                         </div>

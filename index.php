@@ -1,5 +1,26 @@
 <?php
-    
+    session_start();
+    //if(isset($_SESSION['uid'])){
+        include("dbconnection.php");
+        // Check connection
+        if (mysqli_connect_errno()){
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+        else{
+            if(isset($_POST['filter'])){
+                $services=$_POST['services'];
+                $charges=$_POST['charges'];
+                $city=$_POST['city'];
+                $services=$_POST['ratings'];
+                $filter_query="SELECT * FROM `register_technician`";
+            }
+        }
+    //}
+    //else{
+        //echo "<script>alert('Your are not logged in. Please Login again')</script>";
+        //echo "<script>window.location.href= 'login_customer.php'</script>";
+        //exit();
+    //}
 ?>
 
 <!DOCTYPE html>
@@ -31,67 +52,110 @@
         <div class="container">
             <div class="row container-fluid">
                 <div class="col-8">
-                    <h3 class="mt-5 mb-5">Matching the Customers with the Expert Mobile Technician</h3>
-                    <div class="d-flex">
-                        <span class="col-10 me-1"><input class="form-control" type="text" id="inputSearch" placeholder="Type text here"></span>
-                        <span class="col-2"><button class="btn btn-primary">Search</button></span>
+                    <h3 class="mt-5 mb-5">Finding the Expert Mobile Technician For Customers</h3>
+                    <div class="row">
+                        <form action="" method="post" class="d-flex justify-content-center">
+                            <input class="col-10 d-inline rounded border border-dark border-1 pt-2 pb-2" name="search" type="text" id="inputSearch" placeholder="Type text here">
+                            <button class="col-2 d-inline btn btn-primary" name="search">Search</button>
+                        </form>
                     </div>
-                    <div>
-                        <h6 class="mt-2">Search Filters</h6>
-                        <div class="d-flex">
-                            <span class="me-2">
-                                <select class="form-select" name="service">
-                                    <option selected>--Service Type--</option>
-                                    <option value="Screen Broken">Screen Broken</option>
-                                    <option value="Touch Issues">Touch Issues</option>
-                                    <option value="Signal Problems">Signal Problems</option>
-                                    <option value="Charging Issues">Charging Issues</option>
-                                    <option value="Camera Problems">Camera Problems</option>
-                                    <option value="Software Issues">Software Issues</option>
-                                </select>
-                            </span>
-                            <span class="me-2">
-                                <select class="form-select">
-                                    <option selected>--Expected Charges--</option>
-                                    <option value="1">100-500</option>
-                                    <option value="2">500-1000</option>
-                                    <option value="3">1000-1500</option>
-                                    <option value="4">1500-2000</option>
-                                    <option value="5">2000-3000</option>
-                                    <option value="6">3000-4000</option>
-                                    <option value="7">4000-5000</option>
-                                    <option value="8">5000-10000</option>
-                                </select>
-                            </span>
-                            <span class="me-2">
-                                <select class="form-select" name="location">
-                                    <option selected>--Location--</option>
-                                    <option value="Lahore">Lahore</option>
-                                    <option value="Islamabad">Islamabad</option>
-                                    <option value="Krachi">Krachi</option>
-                                    <option value="Peshawar">Peshawar</option>
-                                    <option value="Multan">Multan</option>
-                                    <option value="Faisalabad">Faisalabad</option>
-                                    <option value="Bahawalpur">Bahawalpur</option>
-                                    <option value="DG Khan">DG Khan</option>
-                                    <option value="Gujranwala">Gujranwala</option>
-                                </select>
-                            </span>
-                            <span>
-                                <select class="form-select">
-                                    <option selected>--Ratings--</option>
-                                    <option value="1">One Star</option>
-                                    <option value="2">Two Star</option>
-                                    <option value="3">Three Star</option>
-                                    <option value="4">Four Star</option>
-                                    <option value="5">Five Star</option>
-                                </select>
-                            </span>
+                    <div class="row">
+                        <div class="col-12">
+                            <form action="" method="post" class="mt-2 d-flex justify-content-center">
+                                <span class="me-2">
+                                    <!-- Fetching Services Name from Database table and displaying in Dropdown -->
+                                    <?php
+                                        $services_query="SELECT * FROM `services`";
+                                        $services_result=mysqli_query($con,$services_query);
+                                    ?>
+                                    <select name="services" class="rounded w-100 p-2 mb-2">
+                                        <option value="">--Select An Service--</option>
+                                    <?php
+                                        while($services_options=mysqli_fetch_array($services_result)){
+                                    ?>
+                                        <option value="<?php echo $services_options['id'] ."-" . $services_options['name'];?>"><?php echo $services_options['name']; ?></option>
+                                    <?php 
+                                        } 
+                                    ?>
+                                    </select>
+                                </span>
+                                <span class="me-2">
+                                    <select class="form-select border border-dark border-1 pt-2 pb-2" name="charges">
+                                        <option selected>--Expected Charges--</option>
+                                        <option value="1">100-500</option>
+                                        <option value="2">500-1000</option>
+                                        <option value="3">1000-1500</option>
+                                        <option value="4">1500-2000</option>
+                                        <option value="5">2000-3000</option>
+                                        <option value="6">3000-4000</option>
+                                        <option value="7">4000-5000</option>
+                                        <option value="8">5000-10000</option>
+                                    </select>
+                                </span>
+                                <span class="me-2">
+                                    <!-- Fetching Services Name from Database table and displaying in Dropdown -->
+                                    <?php
+                                        $location_query="SELECT * FROM `register_technician`";
+                                        $location_result=mysqli_query($con,$location_query);
+                                    ?>
+                                    <select name="city" class="rounded w-100 p-2 mb-2">
+                                        <option value="">--Location--</option>
+                                    <?php
+                                        while($location_options=mysqli_fetch_array($location_result)){
+                                    ?>
+                                        <option value="<?php echo $location_options['id'] ."-" . $location_options['city'];?>"><?php echo $location_options['city']; ?></option>
+                                    <?php 
+                                        } 
+                                    ?>
+                                    </select>
+                                </span>
+                                <span>
+                                    <select class="form-select border border-dark border-1 pt-2 pb-2" name="ratings">
+                                        <option selected>--Ratings--</option>
+                                        <option value="1">One Star</option>
+                                        <option value="2">Two Star</option>
+                                        <option value="3">Three Star</option>
+                                        <option value="4">Four Star</option>
+                                        <option value="5">Five Star</option>
+                                    </select>
+                                </span>
+                                <span>
+                                    <button class="btn btn-primary pt-2 pb-2" name="filter">Filter</button>
+                                </span>
+                            </form>
                         </div>
+                    </div>
+                    <div class="row">
+                        <?php
+                            $query="SELECT `id`, `description`, `charges`, `rating` ,
+                            (SELECT `name` FROM `register_technician` Where `id`=`technician_id`) as 'name'
+                            FROM `services_offered`" ;
+                            $result=mysqli_query($con, $query);
+                            while($row=mysqli_fetch_array($result)){
+                        ?>
+                        <div class="card m-1 zoom" style="width: 14rem;" onclick="window.location.href='service_page.php?gig=<?php echo $row['id'];?>', '_self'">
+                            <img src="profile.png" class="align-self-center" atl="Pics"/>
+                            <div class="card-body">
+                                <h6 class="text-bg-white rounded p-2"><?php echo $row['name']; ?></h6>
+                                <h5 class="text-bg-info rounded p-2"><?php echo $row['description']; ?></h5>
+                                <span class="">
+                                    <h6 class="d-inline">Rating:- <?php echo $row['rating']; ?></h6>
+                                    <label for="rating-5"><i class="fa fa-star"></i></label>
+                                    <label for="rating-4"><i class="fa fa-star"></i></label>
+                                    <label for="rating-3"><i class="fa fa-star"></i></label>
+                                    <label for="rating-2"><i class="fa fa-star"></i></label>
+                                    <label for="rating-1"><i class="fa fa-star"></i></label>
+                                </span>
+                                <h5 class="text-bg-success rounded p-2" style="width: 11rem;">Charges:-<?php echo $row['charges'] ?></h5>
+                            </div>
+                        </div>
+                        <?php 
+                            }
+                        ?>
                     </div>
                 </div>
                 <div class="col-4">
-                    <img>
+                    <img src="index2.png" style="max-width: 30rem;">
                 </div>
             </div>
         </div>
