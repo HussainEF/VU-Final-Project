@@ -29,6 +29,26 @@
                     echo "<script>alert('Failed Due to an Error')</script>";
                 }
             }
+            //Threads Check and Creation...
+            if(isset($_POST['messege'])){
+                $thread_check_query="SELECT * FROM `threads` WHERE `technician_id`='$t_id' AND `customer_id`='$_SESSION[uid]'";
+                $run_check=mysqli_query($con, $thread_check_query);
+                if((mysqli_num_rows($run_check)==0)){
+                    //Creation of threads Chat...
+                    $threads_query="INSERT INTO `threads` (`technician_id`, `customer_id`, `timestamp`) VALUES ('$t_id', '$_SESSION[uid]', CURRENT_TIMESTAMP())";
+                    $run_threads_query=mysqli_query($con, $threads_query);
+                    if($run_threads_query){
+                        echo "<script>alert('Thread Created Successfully')</script>";
+                        echo "<script>window.location.href='messeges.php'</script>";
+                    }
+                    else{
+                        echo "<script>alert('Failed Due to an Error')</script>";
+                    }
+                }
+                else{
+                    echo "<script>window.location.href='messeges.php'</script>";
+                } 
+            }
         }
     }
     else{
@@ -80,6 +100,9 @@
                                         <h6 class="border border-light rounded p-2">Ratings:- <?php echo $gig_info['rating']; ?></h6>
                                         <div class="bg-secondary rounded d-flex justify-content-between p-2 mb-2">
                                             <h4 class="d-inline bg-secondary pt-1">Charges:-<?php echo $gig_info['charges']; ?></h4>
+                                            <form action="" method="post">
+                                                <button class='btn btn-primary d-inline' name="messege" onclick="">Messege</button>
+                                            </form>
                                             <!-- Request Service Button trigger modal -->
                                             <a class='btn btn-primary d-inline' data-bs-toggle='modal' data-bs-target="#requestForm">
                                                 Service Request

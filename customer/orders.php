@@ -29,8 +29,28 @@
                     exit();
                 }
             }
+            //Threads Check and Creation...
+            if(isset($_POST['messege'])){
+                $t_id=$_POST['t_id'];
+                $thread_check_query="SELECT * FROM `threads` WHERE `technician_id`='$t_id' AND `customer_id`='$_SESSION[uid]'";
+                $run_check=mysqli_query($con, $thread_check_query);
+                if((mysqli_num_rows($run_check)==0)){
+                    //Creation of threads Chat...
+                    $threads_query="INSERT INTO `threads` (`technician_id`, `customer_id`, `timestamp`) VALUES ('$t_id', '$_SESSION[uid]', CURRENT_TIMESTAMP())";
+                    $run_threads_query=mysqli_query($con, $threads_query);
+                    if($run_threads_query){
+                        echo "<script>alert('Thread Created Successfully')</script>";
+                        echo "<script>window.location.href='messeges.php'</script>";
+                    }
+                    else{
+                        echo "<script>alert('Failed Due to an Error')</script>";
+                    }
+                }
+                else{
+                    echo "<script>window.location.href='messeges.php'</script>";
+                } 
+            }
         }
-        
     }
     else{
         echo "<script>alert('Your are not logged in. Please Login again')</script>";
@@ -80,8 +100,9 @@
                                         (SELECT `contact` FROM `register_customer` WHERE `id`=`customer_id`) as `contact`,
                                         (SELECT `name` FROM `services_offered` WHERE `id`=`service_id`) as `service_name`,
                                         (SELECT `message` FROM `service_request` WHERE `id`=`request_id`) as `message`,
-                                        (SELECT `charges` FROM `services_offered` WHERE `id`=`service_id`) as `charges`
-                                        FROM `orders` WHERE `technician_id`='$_SESSION[uid]'";
+                                        (SELECT `charges` FROM `services_offered` WHERE `id`=`service_id`) as `charges`,
+                                        (SELECT `id` FROM `register_technician` WHERE `id`=`technician_id`) as `t_id`
+                                        FROM `orders` WHERE `customer_id`='$_SESSION[uid]'";
                         $run_query=mysqli_query($con, $request_query);
                         while($get_data=mysqli_fetch_array($run_query)){   
                     ?>
@@ -148,6 +169,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <form action="" method="post"  class="d-flex justify-content-center">
+                                    <button class='btn btn-primary' name="messege" onclick="">Messege</button>
+                                    <!-- for some hack-->
+                                    <input type='text' class='invisible d-none' name='t_id' value="<?php echo $get_data['t_id'];?>">
+                                </form>
                             </div>
                         </div>
                     <?php
